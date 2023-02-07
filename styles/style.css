@@ -1,0 +1,57 @@
+/* Setup the default styles for the whole page */
+* {
+  padding: 0;
+  margin: 0;
+  border: none;
+  color: white;
+  font-family: sans-serif;
+}
+
+/* Setup styles for the page content */
+body {
+  /* fade in animation upon loading page body */
+  animation: fadeIn 0.5s ease-in-out;
+  margin: 0 80px;
+  margin-bottom: 34px;
+  background-color: #000;
+}
+
+/* fade in animation for the page content */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Positioning and sizing for version number information */
+#build-info {
+  font-size: 12px;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.nav-btn {
+  display: flex;
+  padding: 0.8rem 0;
+  width: 100px;
+  border-radius: 15px;
+  background-color: rgb(128, 236, 255);
+  color: black;
+  transition: transform 0.2s ease-in-out;
+  font-size: 1.2rem;
+  justify-content: center;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+}

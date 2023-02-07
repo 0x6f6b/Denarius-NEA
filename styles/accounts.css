@@ -1,0 +1,206 @@
+#accounts-btn {
+  background-color: #14f195;
+}
+
+/* styles for the accounts window and its contents */
+.accounts-window {
+  height: calc(100vh - 143px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid white;
+  margin-top: 20px;
+  border-radius: 20px;
+}
+
+.account-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.account-btn {
+  background-color: black;
+  padding: 20px;
+  font-size: 1rem;
+  transition: transform 0.2s ease-in-out;
+  border: none;
+  border-radius: 10px;
+  color: black;
+}
+
+.account-btn:hover {
+  transform: scale(1.025);
+}
+
+#create-account-btn {
+  background-color: rgb(20, 241, 149);
+}
+
+#import-account-btn {
+  background-color: rgb(235, 84, 188);
+}
+
+#remove-account-btn {
+  background-color: rgb(153, 69, 255);
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 30px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+}
+
+/* Modal Content */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #1d243a;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  border-radius: 10px;
+}
+
+/* The Close Button */
+.close-modal {
+  margin-left: auto;
+  filter: invert(72%) sepia(0%) saturate(1691%) hue-rotate(47deg)
+    brightness(101%) contrast(75%);
+  width: 28px;
+  font-weight: bold;
+}
+
+.close-modal:hover,
+.close-modal:focus {
+  cursor: pointer;
+}
+
+.seed-phrase-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.seed-phrase {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.seed-phrase-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+#word {
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid white;
+  margin: 10px;
+}
+
+#copy-phrase-btn {
+  background-color: rgb(153, 69, 255);
+  color: black;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  font-size: 1rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+#copy-phrase-btn:hover {
+  transform: scale(1.025);
+}
+
+.confirm-phrase-btn {
+  background-color: rgb(20, 241, 149);
+  color: black;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  font-size: 1rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+.confirm-phrase-btn:hover {
+  transform: scale(1.025);
+}
+
+.name-account {
+  padding: 10px;
+  background-color: #3e4767;
+  border: #888 1px solid;
+  border-radius: 10px;
+  margin: 0px 30px;
+}
+
+#account-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(128, 236, 255);
+  border-radius: 20px;
+  margin: 0 30px;
+  margin-top: 20px;
+  padding: 20px;
+}
+
+.account-name {
+  font-size: 20px;
+  font-weight: bold;
+  text-align: start;
+  color: black;
+}
+
+.account-buttons-container {
+  display: flex;
+  gap: 20px;
+}
+
+.account-buttons-container button {
+  cursor: pointer;
+  color: black;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.select-account-btn {
+  background-color: #14f195;
+}
+
+.delete-account-btn {
+  background-color: rgb(234, 114, 114);
+}
+
+.input-word {
+  background-color: #1d243a;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  width: 80%;
+  margin: 5px;
+}

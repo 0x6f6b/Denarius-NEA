@@ -1,0 +1,73 @@
+.welcome-title {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* creates a gradient effect on the word "Denarius" on home page */
+.gradient-text {
+  background: linear-gradient(90deg, #9945ff, #14f195);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  fill-opacity: 0;
+}
+
+/* flex container for rows of links */
+.pages {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: calc(100vh - 133px);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  height: 50%;
+  gap: 20px;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 1.5rem;
+  border-radius: 20px;
+
+  /* grow the page on hover */
+  transition: transform 0.2s ease-in-out;
+}
+
+.page:hover {
+  transform: scale(1.025);
+  cursor: pointer;
+}
+
+.page-title {
+  color: black;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-body {
+  color: black;
+  font-size: 1.3rem;
+  text-align: start;
+}
+
+#accounts {
+  background-color: rgb(20, 241, 149);
+}
+
+#transact {
+  background-color: rgb(153, 69, 255);
+}
+
+#mining {
+  background-color: rgb(128, 236, 255);
+}
+
+#settings {
+  background-color: rgb(235, 84, 188);
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Denarius</title>
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/accounts.css">
+  <script src="../src/app.js" defer></script>
+  <script src="../src/accounts.js" defer></script>
+</head>
+
+<body>
+  <div id="build-info"></div>
+
+  <!-- The Modal -->
+  <div id="seed-phrase-modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <img id="close-modal" class="close-modal" src="../svg/close.svg" alt="Close Button">
+      <div class="seed-phrase-container">
+        <h2 id="title">Seed Phrase</h2>
+        <p id="explanation">The following 24 words can be used to recover your account, write them down somewhere safe.
+        </p>
+
+        <!-- Three Columns of eight words -->
+        <div class="seed-phrase">
+          <div class="seed-phrase-column"></div>
+          <div class="seed-phrase-column"></div>
+          <div class="seed-phrase-column"></div>
+        </div>
+
+        <input type="text" name="account-name" placeholder="Account Name" class="name-account" id="name-account">
+
+        <div class="seed-phrase-buttons">
+          <button id="copy-phrase-btn">Copy Phrase</button>
+          <button class="confirm-phrase-btn" id="confirm-phrase-btn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="input-seed-phrase-modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <img id="close-input-modal" class="close-modal" src="../svg/close.svg" alt="Close Button">
+      <div class="seed-phrase-container">
+        <h2 id="title">Seed Phrase</h2>
+        <p id="explanation">The following 24 words can be used to recover your account, write them down somewhere safe.
+        </p>
+
+        <!-- Three Columns of eight words -->
+        <div class="seed-phrase">
+          <div class="input-seed-phrase-column">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+          </div>
+          <div class="input-seed-phrase-column">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+          </div>
+          <div class="input-seed-phrase-column">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+            <input type="text" class="input-word">
+          </div>
+        </div>
+
+        <input type="text" name="account-name" placeholder="Account Name" class="name-account" id="input-name-account">
+
+        <div class="seed-phrase-buttons">
+          <button class="confirm-phrase-btn" id="confirm-import-phrase-btn">Import</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar-->
+  <div class="navbar">
+    <button class="nav-btn " id="home-btn"><img src="../svg/home.svg" alt="Home Button"></button>
+    <button class="nav-btn" id="accounts-btn"><img src="../svg/accounts-active.svg" alt="Accounts Button"></button>
+    <button class="nav-btn" id="transact-btn"><img src="../svg/payments.svg" alt="Payments Button"></button>
+    <button class="nav-btn" id="mining-btn"><img src="../svg/mining.svg" alt="Mining Button"></button>
+    <button class="nav-btn" id="settings-btn"><img src="../svg/settings.svg" alt="Settings Button"></button>
+  </div>
+
+  <!-- Accounts Main Page -->
+  <div class="accounts-window">
+    <div class="account-buttons">
+      <button class="account-btn" id="create-account-btn">Create Account</button>
+      <button class="account-btn" id="import-account-btn">Import Account</button>
+    </div>
+
+    <div id="account-list"></div>
+  </div>
+</body>
+
+</html>
