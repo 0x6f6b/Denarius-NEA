@@ -60,8 +60,6 @@ createAccountBtn.addEventListener("click", async () => {
 
   const saveButton = document.getElementById("confirm-phrase-btn");
   saveButton.addEventListener("click", async () => {
-    const appdataPath = getAppdataPath();
-
     const privateKey = generatePrivateKey(seedPhraseCopy);
 
     const accountName = document.getElementById("name-account").value;
@@ -69,6 +67,9 @@ createAccountBtn.addEventListener("click", async () => {
       alert("Please name your account before saving it.");
     } else {
       await storeAccount(accountName, privateKey);
+
+      // close the seed phrase modal
+      modal.style.display = "none";
     }
   });
 });

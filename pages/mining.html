@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/mining.css">
+  <script src="../src/app.js" defer></script>
+  <script src="../src/mining.js" defer></script>
+  <title>Mining</title>
+</head>
+
+<body>
+  <div id="build-info"></div>
+
+  <!-- Navbar-->
+  <div class="navbar">
+    <button class="nav-btn " id="home-btn"><img src="../svg/home.svg" alt="Home Button"></button>
+    <button class="nav-btn" id="accounts-btn"><img src="../svg/accounts-active.svg" alt="Accounts Button"></button>
+    <button class="nav-btn" id="transact-btn"><img src="../svg/payments.svg" alt="Payments Button"></button>
+    <button class="nav-btn" id="mining-btn"><img src="../svg/mining.svg" alt="Mining Button"></button>
+    <button class="nav-btn" id="settings-btn"><img src="../svg/settings.svg" alt="Settings Button"></button>
+  </div>
+
+  <div class="panels">
+    <div id="mining-panel">
+      <h2>Mining</h2>
+      <p>Start mining to earn rewards</p>
+      <button id="mine-button">Mine</button>
+      <div id="hash-holder">Start mining to view this data</div>
+      <button id="reset-blockchain">Reset Blockchain</button>
+    </div>
+    <div id="stats-panel">
+      <h2>System Information</h2>
+      <div id="system-info"></div>
+    </div>
+  </div>
+</body>
+
+</html>

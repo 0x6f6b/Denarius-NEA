@@ -1,6 +1,10 @@
 const { pbkdf2Sync, createHmac } = require("crypto");
 const { normalize } = require("path");
 const { appendFileSync } = require("node:fs");
+const { platform, arch, release, totalmem, cpus } = require("node:os");
+const { osInfo, cpu, cpuTemperature } = require("systeminformation");
+const axios = require("axios");
+
 const { Level } = require("level");
 const HDKey = require("hdkey");
 const path = require("path");
@@ -61,4 +65,27 @@ async function storeAccount(accountName, privateKey) {
   refreshAccountList();
 }
 
-module.exports = { getAppdataPath, generatePrivateKey, storeAccount };
+async function getSystemInformation() {
+  const cpuData = await cpu();
+  const osData = await osInfo();
+  const publicIP = await axios.get("https://api.ipify.org?format=json");
+
+  const systemInformation = {
+    hostname: osData.hostname,
+    platform: osData.codename + " " + osData.arch,
+    release: osData.release,
+    cpu: cpuData.vendor + " " + cpuData.brand,
+    cpuCores: cpuData.cores,
+    memory: Math.round(totalmem() / 1024 / 1024) + " MB",
+    publicIP: publicIP.data.ip,
+  };
+
+  return systemInformation;
+}
+
+module.exports = {
+  getAppdataPath,
+  generatePrivateKey,
+  storeAccount,
+  getSystemInformation,
+};
