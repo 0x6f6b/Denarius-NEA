@@ -4,7 +4,11 @@
   margin: 0;
   border: none;
   color: white;
-  font-family: sans-serif;
+  font-family: Helvetica, sans-serif;
+}
+
+html {
+  height: 100%;
 }
 
 /* Setup styles for the page content */
@@ -14,6 +18,13 @@ body {
   margin: 0 80px;
   margin-bottom: 34px;
   background-color: #000;
+  height: 100%;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 
 /* fade in animation for the page content */

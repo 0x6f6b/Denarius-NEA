@@ -2,7 +2,7 @@ const { Level } = require("level");
 const { createHash } = require("node:crypto");
 const { getAppdataPath, getSystemInformation } = require("../src/utils");
 
-const TARGET = 0xb59cd2e4d5ae06dc823f9ef9d8adaa633a91a5935584e2135aff04d6a76n;
+const TARGET = 0xa59cd2e4d5ae06dc823f9ef9d8adaa633a91a5935584e2135aff04d6a76n;
 
 class Block {
   constructor(transactions, previousHash) {
@@ -99,8 +99,16 @@ async function deleteExistingBlockchain() {
 }
 
 const mineButton = document.getElementById("mine-button");
+
+let mining = false;
 mineButton.addEventListener("click", async () => {
-  await checkForExistingBlockchain();
+  mining = !mining;
+
+  if (mining) {
+    await checkForExistingBlockchain(); // check for the presence of the genesis block
+
+    await mine();
+  }
 });
 
 const resetBlockchainButton = document.getElementById("reset-blockchain");
@@ -112,6 +120,9 @@ resetBlockchainButton.addEventListener("click", async () => {
 // populate the system information panel
 (async () => {
   const systemInformation = document.getElementById("system-info");
+
+  systemInformation.innerHTML = "Fetching system information...";
+
   const sysinfo = await getSystemInformation();
   systemInformation.innerHTML = `
   <p>Hostname: ${sysinfo.hostname}</p>
@@ -128,4 +139,10 @@ async function setValueOfHashHolder(megaHashrate) {
   await new Promise((resolve) => setTimeout(resolve, 10));
   document.getElementById("hash-holder").innerHTML =
     "Hashrate: " + megaHashrate + " MH/s";
+}
+
+async function mine() {
+  // firstly, setup the peer
+  const { setupPeer } = require("../src/networking");
+  setupPeer();
 }

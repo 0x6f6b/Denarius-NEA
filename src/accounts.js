@@ -16,6 +16,7 @@ const importAccountBtn = document.getElementById("import-account-btn");
 
 createAccountBtn.addEventListener("click", async () => {
   const seedPhrase = generateSeedPhrase();
+  console.log(seedPhrase);
   const seedPhraseCopy = seedPhrase.join(" ");
 
   // create a modal

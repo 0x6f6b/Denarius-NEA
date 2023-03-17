@@ -8,3 +8,8 @@ const goToMiningPage = document.getElementById("mining-btn");
 goToMiningPage.addEventListener("click", () => {
   window.location.href = "./mining.html";
 });
+
+const goToHome = document.getElementById("home-btn");
+goToHome.addEventListener("click", () => {
+  window.location.href = "../index.html";
+});
