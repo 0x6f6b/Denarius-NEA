@@ -58,13 +58,6 @@ async function storeAccount(
   });
   await db.open();
   await db.put(accountName, { extendedPrivateKey, extendedPublicKey });
-  const account = await db.get(accountName);
-  console.log(
-    "account:",
-    account,
-    "has been added to the database under the name",
-    accountName
-  );
   await db.close();
 
   // add the account name to a file so they can be iterated throuh

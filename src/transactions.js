@@ -19,8 +19,6 @@ class Transaction {
   }
 
   sign(xpriv) {
-    console.log(xpriv);
-
     const txData = JSON.stringify({
       sender: this.sender,
       recipient: this.recipient,
@@ -35,11 +33,13 @@ class Transaction {
 
     const signature = genKey.sign(txHash);
 
-    // verify the signature
+    // verify the signature using the public key to check it worked
     const hdKey = HDKey.fromExtendedKey(this.sender);
     const verified = hdKey.verify(txHash, signature);
 
     console.log("verified:", verified);
+
+    return signature;
   }
 }
 
@@ -55,7 +55,6 @@ const accountList = accountsBuffer.toString().split("\n");
 const accountsSelect = document.getElementById("accounts");
 
 accountList.forEach((account) => {
-  console.log("account:", account);
   if (account == "") {
     return;
   }
@@ -81,9 +80,6 @@ transactionMetadata.addEventListener("submit", async (e) => {
   const { extendedPrivateKey, extendedPublicKey } = await getAccountData(
     sender
   );
-
-  console.log("extendedPrivateKey:", extendedPrivateKey);
-  console.log("extendedPublicKey:", extendedPublicKey);
 
   // create a new transaction
   const transaction = new Transaction(
