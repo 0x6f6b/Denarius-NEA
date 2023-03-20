@@ -33,13 +33,27 @@ class Transaction {
 
     const signature = genKey.sign(txHash);
 
+    this.signature = signature;
+
+    console.log(this.verify());
+  }
+
+  verify() {
+    const txData = JSON.stringify({
+      sender: this.sender,
+      recipient: this.recipient,
+      amount: this.amount,
+      description: this.description,
+      timestamp: this.timestamp,
+    });
+
+    const txHash = createHash("sha256").update(txData).digest(); // hash in buffer format
+
     // verify the signature using the public key to check it worked
     const hdKey = HDKey.fromExtendedKey(this.sender);
-    const verified = hdKey.verify(txHash, signature);
+    const verified = hdKey.verify(txHash, this.signature);
 
-    console.log("verified:", verified);
-
-    return signature;
+    return verified;
   }
 }
 
