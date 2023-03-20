@@ -43,16 +43,18 @@ function generatePrivateKey(seedphrase) {
   const privateKey = hdkey.privateKey.toString("hex");
   console.log(privateKey + " is the private key");
 
-  return privateKey;
+  const publicKey = hdkey.publicKey.toString("hex");
+
+  return { privateKey, publicKey, genKey: hdkey };
 }
 
-async function storeAccount(accountName, privateKey) {
+async function storeAccount(accountName, privateKey, publicKey, genKey) {
   // Write private key to database using private key
   const db = new Level(getAppdataPath() + "/accounts", {
     valueEncoding: "json",
   });
   await db.open();
-  await db.put(accountName, privateKey);
+  await db.put(accountName, { privateKey, publicKey, genKey });
   await db.close();
 
   // add the account name to a file so they can be iterated throuh
@@ -62,6 +64,17 @@ async function storeAccount(accountName, privateKey) {
   );
 
   refreshAccountList();
+}
+
+async function getAccountData(accountName) {
+  const db = new Level(getAppdataPath() + "/accounts", {
+    valueEncoding: "json",
+  });
+  await db.open();
+  const data = await db.get(accountName);
+  await db.close();
+
+  return data;
 }
 
 async function getSystemInformation() {
@@ -89,4 +102,5 @@ module.exports = {
   generatePrivateKey,
   storeAccount,
   getSystemInformation,
+  getAccountData,
 };

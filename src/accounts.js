@@ -61,13 +61,14 @@ createAccountBtn.addEventListener("click", async () => {
 
   const saveButton = document.getElementById("confirm-phrase-btn");
   saveButton.addEventListener("click", async () => {
-    const privateKey = generatePrivateKey(seedPhraseCopy);
+    const { privateKey, publicKey, genKey } =
+      generatePrivateKey(seedPhraseCopy);
 
     const accountName = document.getElementById("name-account").value;
     if (accountName === "") {
       alert("Please name your account before saving it.");
     } else {
-      await storeAccount(accountName, privateKey);
+      await storeAccount(accountName, privateKey, publicKey, genKey);
 
       // close the seed phrase modal
       modal.style.display = "none";

@@ -13,3 +13,13 @@ const goToHome = document.getElementById("home-btn");
 goToHome.addEventListener("click", () => {
   window.location.href = "../index.html";
 });
+
+const goToTransactionPage = document.getElementById("transact-btn");
+goToTransactionPage.addEventListener("click", () => {
+  window.location.href = "./transactions.html";
+});
+
+const goToAccountsPage = document.getElementById("accounts-btn");
+goToAccountsPage.addEventListener("click", () => {
+  window.location.href = "./accounts.html";
+});
