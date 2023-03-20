@@ -61,14 +61,14 @@ createAccountBtn.addEventListener("click", async () => {
 
   const saveButton = document.getElementById("confirm-phrase-btn");
   saveButton.addEventListener("click", async () => {
-    const { privateKey, publicKey, genKey } =
+    const { extendedPrivateKey, extendedPublicKey } =
       generatePrivateKey(seedPhraseCopy);
 
     const accountName = document.getElementById("name-account").value;
     if (accountName === "") {
       alert("Please name your account before saving it.");
     } else {
-      await storeAccount(accountName, privateKey, publicKey, genKey);
+      await storeAccount(accountName, extendedPrivateKey, extendedPublicKey);
 
       // close the seed phrase modal
       modal.style.display = "none";
@@ -102,8 +102,9 @@ importAccountBtn.addEventListener("click", async () => {
     if (accountName === "") {
       alert("Please name your account before saving it.");
     } else {
-      const privateKey = generatePrivateKey(seedPhraseCopy);
-      storeAccount(accountName, privateKey);
+      const { extendedPrivateKey, extendedPublicKey } =
+        generatePrivateKey(seedPhraseCopy);
+      storeAccount(accountName, extendedPrivateKey, extendedPublicKey);
       console.log("Stored account", privateKey);
     }
   });

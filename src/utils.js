@@ -40,21 +40,31 @@ function generatePrivateKey(seedphrase) {
   // Use the HDKey library to generate the private key
   const hdkey = HDKey.fromMasterSeed(seed);
 
-  const privateKey = hdkey.privateKey.toString("hex");
-  console.log(privateKey + " is the private key");
+  const extendedPrivateKey = hdkey.privateExtendedKey;
 
-  const publicKey = hdkey.publicKey.toString("hex");
+  const extendedPublicKey = hdkey.publicExtendedKey;
 
-  return { privateKey, publicKey, genKey: hdkey };
+  return { extendedPrivateKey, extendedPublicKey };
 }
 
-async function storeAccount(accountName, privateKey, publicKey, genKey) {
+async function storeAccount(
+  accountName,
+  extendedPrivateKey,
+  extendedPublicKey
+) {
   // Write private key to database using private key
   const db = new Level(getAppdataPath() + "/accounts", {
     valueEncoding: "json",
   });
   await db.open();
-  await db.put(accountName, { privateKey, publicKey, genKey });
+  await db.put(accountName, { extendedPrivateKey, extendedPublicKey });
+  const account = await db.get(accountName);
+  console.log(
+    "account:",
+    account,
+    "has been added to the database under the name",
+    accountName
+  );
   await db.close();
 
   // add the account name to a file so they can be iterated throuh

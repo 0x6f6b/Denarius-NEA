@@ -12,7 +12,7 @@ miningButton.addEventListener("click", () => {
   window.location.href = "./pages/mining.html";
 });
 
-const transactionsButton = document.getElementById("transactions");
+const transactionsButton = document.getElementById("transact");
 transactionsButton.addEventListener("click", () => {
   // send the user to the transactions page
   window.location.href = "./pages/transactions.html";

@@ -1,7 +1,7 @@
 const { readFileSync } = require("node:fs");
 const { getAppdataPath, getAccountData } = require("../src/utils");
 const HDKey = require("hdkey");
-const { createSign, createPrivateKey } = require("crypto");
+const { createHash } = require("crypto");
 
 class Transaction {
   constructor(
@@ -18,8 +18,8 @@ class Transaction {
     this.timestamp = timestamp;
   }
 
-  sign(genKey) {
-    console.log(genKey);
+  sign(xpriv) {
+    console.log(xpriv);
 
     const txData = JSON.stringify({
       sender: this.sender,
@@ -28,6 +28,18 @@ class Transaction {
       description: this.description,
       timestamp: this.timestamp,
     });
+
+    const txHash = createHash("sha256").update(txData).digest(); // hash in buffer format
+
+    const genKey = HDKey.fromExtendedKey(xpriv);
+
+    const signature = genKey.sign(txHash);
+
+    // verify the signature
+    const hdKey = HDKey.fromExtendedKey(this.sender);
+    const verified = hdKey.verify(txHash, signature);
+
+    console.log("verified:", verified);
   }
 }
 
@@ -66,13 +78,23 @@ transactionMetadata.addEventListener("submit", async (e) => {
   const sender = document.getElementById("accounts").value;
 
   // get the public key corresponding to the selected account
-  const { privateKey, publicKey, genKey } = await getAccountData(sender);
+  const { extendedPrivateKey, extendedPublicKey } = await getAccountData(
+    sender
+  );
+
+  console.log("extendedPrivateKey:", extendedPrivateKey);
+  console.log("extendedPublicKey:", extendedPublicKey);
 
   // create a new transaction
-  const transaction = new Transaction(publicKey, recipient, amount, reference);
+  const transaction = new Transaction(
+    extendedPublicKey,
+    recipient,
+    amount,
+    reference
+  );
 
   // sign the transaction
-  transaction.sign(genKey);
+  transaction.sign(extendedPrivateKey);
 });
 
 module.exports = Transaction;
