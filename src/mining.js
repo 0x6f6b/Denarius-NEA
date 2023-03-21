@@ -141,8 +141,4 @@ async function setValueOfHashHolder(megaHashrate) {
     "Hashrate: " + megaHashrate + " MH/s";
 }
 
-async function mine() {
-  // firstly, setup the peer
-  const { setupPeer } = require("../src/networking");
-  setupPeer();
-}
+async function mine() {}
