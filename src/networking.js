@@ -14,6 +14,15 @@ peer.on("open", (id) => {
 peer.on("connection", (conn) => {
   console.log("Connected to peer");
   conn.on("data", (data) => {
-    console.log("Received", data);
+    switch (data.type) {
+      case "transaction":
+        console.log("Received transaction");
+        handleTransaction(data.data);
+    }
   });
 });
+
+function handleTransaction(transaction) {
+  console.log(transaction);
+  console.log("Verifying transaction authenticity");
+}
