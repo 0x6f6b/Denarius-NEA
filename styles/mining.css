@@ -110,3 +110,23 @@
   padding: 5px;
   margin: 10px 0;
 }
+
+#loading:before {
+  animation: dots 2s linear infinite;
+  content: "";
+}
+
+@keyframes dots {
+  0%,20% {
+    content: ".";
+  }
+  40% {
+    content: "..";
+  }
+  60% {
+    content: "...";
+  }
+  90%, 100% {
+    content: "";
+  }
+}

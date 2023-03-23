@@ -96,6 +96,7 @@ async function genesisBlock() {
   await window.blockchain.close();
 
   console.log("Genesis block created");
+  mineButton.innerText = "Mine";
 }
 
 async function checkForExistingBlockchain() {
@@ -113,8 +114,6 @@ async function checkForExistingBlockchain() {
       genesisBlock();
     });
 
-  await window.blockchain.close();
-
   console.log("Blockchain checked");
 }
 
@@ -128,6 +127,13 @@ async function deleteExistingBlockchain() {
 const mineButton = document.getElementById("mine-button");
 
 mineButton.addEventListener("click", async () => {
+  mineButton.innerText = "Mining";
+
+  const dots = document.createElement("span");
+  dots.id = "loading";
+
+  mineButton.appendChild(dots);
+
   await checkForExistingBlockchain().catch((err) => {
     console.log(err);
   });
@@ -217,12 +223,19 @@ async function mine() {
   await window.blockchain.close();
 
   console.log("Block mined");
+  mineButton.innerText = "Broadcasting";
+
+  const dots = document.createElement("span");
+  dots.id = "loading";
+
+  mineButton.appendChild(dots);
 
   // update the UI
-  const blockHash = document.getElementById("hash-holder");
-  blockHash.innerHTML = "Block Hash: " + block.hash;
+  // const blockHash = document.getElementById("hash-holder");
+  // blockHash.innerHTML = "Block Hash: " + block.hash;
 
   // distribute the block to other nodes
+  broadcastBlock(block);
 }
 
 updatePendingTransactions();
