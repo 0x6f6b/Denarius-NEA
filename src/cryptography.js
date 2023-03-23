@@ -1,4 +1,3 @@
-// const { pbkdf2Sync } = require("crypto");
 const { normalize } = require("path");
 const { appendFileSync, existsSync, mkdirSync } = require("fs");
 const { fromSeed } = require("bip32");
