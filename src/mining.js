@@ -1,6 +1,6 @@
-const { createHash } = require("node:crypto");
-const { getAppdataPath, getSystemInformation } = require("../src/utils");
-const { readFileSync } = require("node:fs");
+const { createHash } = require("crypto");
+const { readFileSync } = require("fs");
+const { getSystemInformation } = require("../src/platform.js");
 
 // open the "accounts.txt file" and read each line
 const accountsBuffer = readFileSync(
@@ -86,21 +86,20 @@ async function genesisBlock() {
 
   await genesis.proofOfWork(TARGET);
 
-  const db = new Level(getAppdataPath() + "/blockchain");
-  await db.open();
-  await db.put(genesis.hash, genesis.toString());
-  await db.put("lastHash", genesis.hash);
-  await db.close();
+  await window.blockchain.open();
+  await window.blockchain.put(genesis.hash, genesis.toString());
+  await window.blockchain.put("lastHash", genesis.hash);
+  await window.blockchain.close();
 
   console.log("Genesis block created");
 }
 
 async function checkForExistingBlockchain() {
-  const db = new Level(getAppdataPath() + "/blockchain");
-  await db.open();
+  await window.blockchain.open();
 
   // a blockchain already exists if the genesis block exists
-  db.get("0")
+  window.blockchain
+    .get("0")
     .then((value) => {
       console.log("Blockchain already exists");
     })
@@ -109,14 +108,13 @@ async function checkForExistingBlockchain() {
       genesisBlock();
     });
 
-  await db.close();
+  await window.blockchain.close();
 }
 
 async function deleteExistingBlockchain() {
-  const db = new Level(getAppdataPath() + "/blockchain");
-  await db.open();
-  await db.clear();
-  await db.close();
+  await window.blockchain.open();
+  await window.blockchain.clear();
+  await window.blockchain.close();
   console.log("Blockchain data deleted");
 }
 
@@ -160,14 +158,10 @@ async function setValueOfHashHolder(megaHashrate) {
 
 async function mine() {
   // Check local mempool for pending transactions
-  const db = new Level(getAppdataPath() + "/mempool", {
-    valueEncoding: "json",
-  });
-
-  await db.open();
+  await window.mempool.open();
 
   // get the local mempool
-  const transactions = await db
+  const transactions = await window.mempool
     .get("transactions")
     .then((value) => {
       return value;
@@ -179,7 +173,7 @@ async function mine() {
   console.log("Transactions in mempool: " + transactions.length);
 
   // get the last block in the blockchain
-  const lastHash = await db.get("lastHash");
+  const lastHash = await window.mempool.get("lastHash");
 
   const block = new Block(transactions, lastHash);
   await block.proofOfWork(TARGET);
@@ -208,13 +202,9 @@ function updatePendingTransactions() {
             console.log("Received mempool from peer");
             console.log(data.transactions);
 
-            // add transactions to local mempool
-            const db = new Level(getAppdataPath() + "/mempool", {
-              valueEncoding: "json",
-            });
-
             // get the current mempool
-            db.get("transactions")
+            window.mempool
+              .get("transactions")
               .then((value) => {
                 console.log("Current mempool: " + JSON.stringify(value));
                 // add the new transactions to the current mempool
@@ -233,13 +223,13 @@ function updatePendingTransactions() {
                 const newMempool = value.concat(newTx);
 
                 // update the mempool
-                db.put("transactions", newMempool);
+                window.mempool.put("transactions", newMempool);
               })
               .catch((err) => {
                 console.log(err);
                 console.log("No mempool found");
                 // no mempool exists, create a new one
-                db.put("transactions", data.transactions);
+                window.mempool.put("transactions", data.transactions);
               });
           }
         });

@@ -1,7 +1,7 @@
 // main.js
 
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require("electron");
+var { app, BrowserWindow } = require("electron");
 
 const createWindow = () => {
   // Create the browser window.

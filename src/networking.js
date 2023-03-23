@@ -1,8 +1,6 @@
 const uuid = require("uuid");
 const Peer = require("peerjs").Peer;
 const { Transaction } = require("../src/Transaction.js");
-const { Level } = require("level");
-var HDKey = require("hdkey"); // FIXME: This is causing the render process to crash
 
 var peer = new Peer(uuid.v4(), {
   host: "13.48.124.177",
@@ -40,12 +38,10 @@ async function addToMempool(transaction) {
   // if the transaction is valid
   if (authentic) {
     console.log("Adding transaction to mempool");
-    const db = new Level(getAppdataPath() + "/mempool", {
-      valueEncoding: "json",
-    });
-    await db.open();
+
+    await window.mempool.open();
     // get the mempool accounting for the possibility that it doesn't exist
-    const transactions = await db
+    const transactions = await window.mempool
       .get("transactions")
       .then((value) => {
         return value;
@@ -54,22 +50,18 @@ async function addToMempool(transaction) {
         return [];
       });
     transactions.push(transaction);
-    await db.put("transactions", transactions);
+    await window.mempool.put("transactions", transactions);
 
     console.log("Transaction added to mempool");
     console.log("Mempool:", transactions);
 
-    await db.close();
+    await window.mempool.close();
   }
 }
 
 async function sendMempool(conn) {
-  const db = new Level(getAppdataPath() + "/mempool", {
-    valueEncoding: "json",
-  });
-
-  await db.open();
-  const transactions = await db
+  await window.mempool.open();
+  const transactions = await window.mempool
     .get("transactions")
     .then((value) => {
       return value;
@@ -78,7 +70,7 @@ async function sendMempool(conn) {
       return [];
     });
 
-  await db.close();
+  await window.mempool.close();
 
   conn.send({ type: "mempool", transactions: transactions });
 }

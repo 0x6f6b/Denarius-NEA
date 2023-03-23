@@ -1,11 +1,6 @@
-const { Level } = require("level");
-const { randomBytes, createHash } = require("node:crypto");
-const { readFileSync, writeFileSync } = require("node:fs");
-const {
-  getAppdataPath,
-  generatePrivateKey,
-  storeAccount,
-} = require("../src/utils");
+const { randomBytes, createHash } = require("crypto");
+const { readFileSync, writeFileSync } = require("fs");
+const { generatePrivateKey, storeAccount } = require("../src/cryptography.js");
 
 window.onload = () => {
   refreshAccountList();
@@ -166,87 +161,91 @@ function refreshAccountList() {
   accountsList.innerHTML = "";
 
   // open the "accounts.txt file" and read each line
-  const accountsBuffer = readFileSync(
-    getAppdataPath() + "/accounts/accounts.txt"
-  );
+  try {
+    const accountsBuffer = readFileSync(
+      getAppdataPath() + "/accounts/accounts.txt"
+    );
 
-  const accounts = accountsBuffer.toString().split("\n");
+    const accounts = accountsBuffer.toString().split("\n");
 
-  accounts.forEach((account) => {
-    if (account == "") {
-      return;
-    }
+    accounts.forEach((account) => {
+      if (account == "") {
+        return;
+      }
 
-    const accountButton = document.createElement("div");
-    accountButton.classList.add("account-data");
+      const accountButton = document.createElement("div");
+      accountButton.classList.add("account-data");
 
-    const accountName = document.createElement("p");
-    accountName.classList.add("account-name");
-    accountName.innerText = account;
-    accountButton.appendChild(accountName);
+      const accountName = document.createElement("p");
+      accountName.classList.add("account-name");
+      accountName.innerText = account;
+      accountButton.appendChild(accountName);
 
-    const buttonsContainer = document.createElement("div");
-    buttonsContainer.classList.add("account-buttons-container");
+      const buttonsContainer = document.createElement("div");
+      buttonsContainer.classList.add("account-buttons-container");
 
-    const selectAccount = document.createElement("button");
-    selectAccount.classList.add("select-account-btn");
-    selectAccount.innerText = "Select";
+      const selectAccount = document.createElement("button");
+      selectAccount.classList.add("select-account-btn");
+      selectAccount.innerText = "Select";
 
-    selectAccount.addEventListener("click", () => {
-      // the account is selected and should be stored in a variable accessable across the whole application
-      localStorage.setItem("account", account);
-      console.log("Account:", account, "was selected.");
+      selectAccount.addEventListener("click", () => {
+        // the account is selected and should be stored in a variable accessable across the whole application
+        localStorage.setItem("account", account);
+        console.log("Account:", account, "was selected.");
 
-      const selectAccountButtons = document.querySelectorAll(
-        ".select-account-btn"
-      );
+        const selectAccountButtons = document.querySelectorAll(
+          ".select-account-btn"
+        );
 
-      selectAccountButtons.forEach((button) => {
-        button.style.backgroundColor = "#14f195";
+        selectAccountButtons.forEach((button) => {
+          button.style.backgroundColor = "#14f195";
+        });
+
+        selectAccount.style.backgroundColor = "#888888";
       });
 
-      selectAccount.style.backgroundColor = "#888888";
-    });
+      const deleteAccount = document.createElement("button");
+      deleteAccount.classList.add("delete-account-btn");
+      deleteAccount.innerText = "Delete";
 
-    const deleteAccount = document.createElement("button");
-    deleteAccount.classList.add("delete-account-btn");
-    deleteAccount.innerText = "Delete";
+      deleteAccount.addEventListener("click", async () => {
+        // remove the account from the accounts.txt file
+        const accountsBuffer = readFileSync(
+          getAppdataPath() + "/accounts/accounts.txt"
+        );
 
-    deleteAccount.addEventListener("click", async () => {
-      // remove the account from the accounts.txt file
-      const accountsBuffer = readFileSync(
-        getAppdataPath() + "/accounts/accounts.txt"
-      );
+        const accounts = accountsBuffer.toString().split("\n");
 
-      const accounts = accountsBuffer.toString().split("\n");
+        const newAccounts = accounts.filter((acc) => {
+          return acc != account;
+        });
 
-      const newAccounts = accounts.filter((acc) => {
-        return acc != account;
+        const newAccountsString = newAccounts.join("\n");
+
+        writeFileSync(
+          getAppdataPath() + "/accounts/accounts.txt",
+          newAccountsString
+        );
+
+        // remove the account's private key file
+        await window.accounts.open();
+        await window.accounts.del(account);
+        await window.accounts.close();
+
+        // refresh the account list
+        refreshAccountList();
       });
 
-      const newAccountsString = newAccounts.join("\n");
+      buttonsContainer.appendChild(selectAccount);
+      buttonsContainer.appendChild(deleteAccount);
+      accountButton.appendChild(buttonsContainer);
 
-      writeFileSync(
-        getAppdataPath() + "/accounts/accounts.txt",
-        newAccountsString
-      );
-
-      // remove the account's private key file
-      const db = new Level(getAppdataPath() + "/accounts");
-      await db.open();
-      await db.del(account);
-      await db.close();
-
-      // refresh the account list
-      refreshAccountList();
+      accountsList.appendChild(accountButton);
     });
-
-    buttonsContainer.appendChild(selectAccount);
-    buttonsContainer.appendChild(deleteAccount);
-    accountButton.appendChild(buttonsContainer);
-
-    accountsList.appendChild(accountButton);
-  });
+  } catch (err) {
+    console.log("No accounts found.");
+    return;
+  }
 }
 
 module.exports = { refreshAccountList };
