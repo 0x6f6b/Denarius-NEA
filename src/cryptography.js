@@ -74,6 +74,7 @@ async function storeAccount(
 }
 
 async function getAccountData(accountName) {
+  console.log("accountName: " + accountName);
   await window.accounts.open();
   const data = await window.accounts.get(accountName);
   await window.accounts.close();

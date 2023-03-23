@@ -3,7 +3,7 @@ const Peer = require("peerjs").Peer;
 const { Transaction } = require("../src/Transaction.js");
 
 var peer = new Peer(uuid.v4(), {
-  host: "13.48.124.177",
+  host: "13.50.246.63",
   port: 9000,
   path: "/denarius",
 });

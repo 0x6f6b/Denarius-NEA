@@ -39,6 +39,8 @@ transactionMetadata.addEventListener("submit", async (e) => {
     sender
   );
 
+  console.log(extendedPrivateKey, extendedPublicKey);
+
   // create a new transaction
   const { Transaction } = require("../src/Transaction.js");
 
