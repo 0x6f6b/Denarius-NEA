@@ -283,3 +283,22 @@ function updatePendingTransactions() {
     }
   });
 }
+
+function broadcastBlock(block) {
+  const peerList = [];
+
+  peer.listAllPeers((peers) => {
+    for (const discoveredPeer of peers) {
+      if (discoveredPeer !== peer.id) {
+        peerList.push(discoveredPeer);
+      }
+    }
+
+    for (const peerId of peerList) {
+      const conn = peer.connect(peerId);
+      conn.on("open", () => {
+        conn.send({ type: "block", data: block });
+      });
+    }
+  });
+}

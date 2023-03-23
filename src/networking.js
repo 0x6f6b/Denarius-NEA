@@ -23,6 +23,10 @@ peer.on("connection", (conn) => {
       case "fetchMempool":
         console.log("Received request for mempool");
         await sendMempool(conn);
+        break;
+      case "block":
+        console.log("Received block");
+        await addBlock(data.data);
     }
   });
 });
@@ -73,4 +77,12 @@ async function sendMempool(conn) {
   await window.mempool.close();
 
   conn.send({ type: "mempool", transactions: transactions });
+}
+
+async function addBlock(block) {
+  // add the block to the blockchain
+
+  // check if the block is valid
+  console.log("Verifying block authenticity");
+  console.log(JSON.stringify(block));
 }
