@@ -29,10 +29,14 @@ class Block {
   constructor(transactions, previousHash) {
     this.transactions = transactions;
     this.previousHash = previousHash;
+    this.reward = 50;
   }
 
   // Proof of Work (PoW) consensus algorithm
-  async proofOfWork(target) {
+  async proofOfWork(target, minerAddress) {
+    // add the miner's address to the block
+    this.miner = minerAddress;
+
     // for debugging purposes
     target = TARGET;
 
@@ -99,8 +103,9 @@ async function checkForExistingBlockchain() {
 
   // a blockchain already exists if the genesis block exists
   window.blockchain
-    .get("0")
+    .get("lastHash")
     .then((value) => {
+      console.log("Last hash: " + value);
       console.log("Blockchain already exists");
     })
     .catch((err) => {
@@ -109,6 +114,8 @@ async function checkForExistingBlockchain() {
     });
 
   await window.blockchain.close();
+
+  console.log("Blockchain checked");
 }
 
 async function deleteExistingBlockchain() {
@@ -121,9 +128,13 @@ async function deleteExistingBlockchain() {
 const mineButton = document.getElementById("mine-button");
 
 mineButton.addEventListener("click", async () => {
-  await checkForExistingBlockchain(); // check for the presence of the genesis block
+  await checkForExistingBlockchain().catch((err) => {
+    console.log(err);
+  });
 
-  await mine();
+  await mine().catch((err) => {
+    console.log(err);
+  });
 });
 
 const resetBlockchainButton = document.getElementById("reset-blockchain");
@@ -157,6 +168,7 @@ async function setValueOfHashHolder(megaHashrate) {
 }
 
 async function mine() {
+  console.log("Mining block...");
   // Check local mempool for pending transactions
   await window.mempool.open();
 
@@ -173,10 +185,44 @@ async function mine() {
   console.log("Transactions in mempool: " + transactions.length);
 
   // get the last block in the blockchain
-  const lastHash = await window.mempool.get("lastHash");
+  await window.blockchain.open();
+  const lastHash = await window.blockchain.get("lastHash");
 
   const block = new Block(transactions, lastHash);
-  await block.proofOfWork(TARGET);
+
+  // get the miner's address
+  const minerAccount = document.getElementById("accounts").value;
+
+  console.log("Miner's Account: " + minerAccount);
+
+  const account = await window.accounts.get(minerAccount);
+  const publicKey = account.extendedPublicKey;
+
+  await block.proofOfWork(TARGET, publicKey);
+
+  // add the block to the local blockchain
+  await window.blockchain.put(block.hash, block.toString());
+  await window.blockchain.put("lastHash", block.hash);
+
+  // remove the transactions that were included in the block from the mempool
+  const mempoolTxs = await window.mempool.get("transactions");
+  const newMempoolTxs = mempoolTxs.filter((tx) => {
+    return !block.transactions.includes(tx);
+  });
+
+  console.log("New mempool transactions: " + newMempoolTxs.length);
+
+  await window.mempool.put("transactions", newMempoolTxs);
+
+  await window.blockchain.close();
+
+  console.log("Block mined");
+
+  // update the UI
+  const blockHash = document.getElementById("hash-holder");
+  blockHash.innerHTML = "Block Hash: " + block.hash;
+
+  // distribute the block to other nodes
 }
 
 updatePendingTransactions();

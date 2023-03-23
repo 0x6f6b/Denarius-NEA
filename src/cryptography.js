@@ -3,7 +3,6 @@ const { appendFileSync, existsSync, mkdirSync } = require("fs");
 const { fromSeed } = require("bip32");
 const { pbkdf2Sync } = require("crypto");
 const { getAppdataPath } = require("../src/platform.js");
-const { Level } = require("level");
 
 function generatePrivateKey(seedphrase) {
   const seed = generateSeed(seedphrase);
