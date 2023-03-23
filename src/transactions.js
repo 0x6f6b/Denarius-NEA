@@ -1,6 +1,5 @@
-const { readFileSync } = require("node:fs");
-const { getAppdataPath, getAccountData } = require("../src/utils");
-const { createHash } = require("crypto");
+const { readFileSync } = require("fs");
+const { getAccountData } = require("../src/cryptography.js");
 
 const transactionMetadata = document.getElementById("transaction-metadata");
 

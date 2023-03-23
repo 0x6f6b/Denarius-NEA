@@ -1,3 +1,6 @@
+const { createHash } = require("crypto");
+const { fromBase58 } = require("bip32");
+
 class Transaction {
   constructor(
     sender, // public key of the sender
@@ -26,7 +29,7 @@ class Transaction {
 
     const txHash = createHash("sha256").update(txData).digest(); // hash in buffer format
 
-    const genKey = HDKey.fromExtendedKey(xpriv);
+    const genKey = fromBase58(xpriv);
 
     const signature = genKey.sign(txHash);
 
@@ -50,8 +53,9 @@ class Transaction {
     const txHash = createHash("sha256").update(txData).digest(); // hash in buffer format
 
     // verify the signature using the public key to check it worked
-    const hdKey = HDKey.fromExtendedKey(this.sender);
-    const verified = hdKey.verify(txHash, signature);
+    console.log(this.sender);
+    const genKey = fromBase58(this.sender);
+    const verified = genKey.verify(txHash, signature);
 
     return verified;
   }
