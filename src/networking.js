@@ -2,7 +2,7 @@ const uuid = require("uuid");
 const Peer = require("peerjs").Peer;
 const { Transaction } = require("../src/Transaction.js");
 const { Level } = require("level");
-const HDKey = require("hdkey");
+var HDKey = require("hdkey"); // FIXME: This is causing the render process to crash
 
 var peer = new Peer(uuid.v4(), {
   host: "13.48.124.177",

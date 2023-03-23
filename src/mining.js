@@ -88,7 +88,8 @@ async function genesisBlock() {
 
   const db = new Level(getAppdataPath() + "/blockchain");
   await db.open();
-  db.put(genesis.hash, genesis.toString());
+  await db.put(genesis.hash, genesis.toString());
+  await db.put("lastHash", genesis.hash);
   await db.close();
 
   console.log("Genesis block created");
@@ -159,6 +160,29 @@ async function setValueOfHashHolder(megaHashrate) {
 
 async function mine() {
   // Check local mempool for pending transactions
+  const db = new Level(getAppdataPath() + "/mempool", {
+    valueEncoding: "json",
+  });
+
+  await db.open();
+
+  // get the local mempool
+  const transactions = await db
+    .get("transactions")
+    .then((value) => {
+      return value;
+    })
+    .catch((err) => {
+      return [];
+    });
+
+  console.log("Transactions in mempool: " + transactions.length);
+
+  // get the last block in the blockchain
+  const lastHash = await db.get("lastHash");
+
+  const block = new Block(transactions, lastHash);
+  await block.proofOfWork(TARGET);
 }
 
 updatePendingTransactions();
