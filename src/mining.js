@@ -23,64 +23,6 @@ accountList.forEach((account) => {
   accountsSelect.appendChild(accountOption);
 });
 
-const TARGET = 0xa59cd2e4d5ae06dc823f9ef9d8adaa633a91a5935584e2135aff04d6a76n;
-
-class Block {
-  constructor(transactions, previousHash) {
-    this.transactions = transactions;
-    this.previousHash = previousHash;
-    this.reward = 50;
-  }
-
-  // Proof of Work (PoW) consensus algorithm
-  async proofOfWork(target, minerAddress) {
-    // add the miner's address to the block
-    this.miner = minerAddress;
-
-    // for debugging purposes
-    target = TARGET;
-
-    this.nonce = 0;
-
-    let hash = this.calculateHash();
-    let hashValue = BigInt("0x" + hash);
-
-    const startTime = Date.now();
-    let hashed = 0;
-    while (hashValue > target) {
-      this.nonce = Math.random().toString();
-      hash = this.calculateHash();
-
-      hashed++;
-
-      if (hashed % 100000 == 0) {
-        const time = Date.now() - startTime;
-        const hashrate = Math.round(hashed / (time / 1000));
-        const megaHashrate = hashrate / 1000000;
-
-        await setValueOfHashHolder(megaHashrate);
-      }
-
-      hashValue = BigInt("0x" + hash);
-    }
-
-    console.log("Found proof of work: " + hash);
-    this.hash = hash;
-    this.timestamp = Date.now();
-  }
-
-  // Convert entire block to a string by overriding the toString() method
-  toString() {
-    return JSON.stringify(this);
-  }
-
-  calculateHash() {
-    const hash = createHash("sha256").update(this.toString()).digest("hex");
-
-    return hash;
-  }
-}
-
 // This function must be called if the blockchain is empty (the beginning of the blockchain)
 async function genesisBlock() {
   console.log("Creating genesis block");
@@ -88,7 +30,7 @@ async function genesisBlock() {
   const previousHash = "0";
   const genesis = new Block(transactions, previousHash);
 
-  await genesis.proofOfWork(TARGET);
+  await genesis.proofOfWork(TARGET, "genesis");
 
   await window.blockchain.open();
   await window.blockchain.put(genesis.hash, genesis.toString());
@@ -315,3 +257,5 @@ function broadcastBlock(block) {
     }
   });
 }
+
+module.exports = { TARGET };

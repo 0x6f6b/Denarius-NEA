@@ -184,24 +184,36 @@ function refreshAccountList() {
       const buttonsContainer = document.createElement("div");
       buttonsContainer.classList.add("account-buttons-container");
 
-      const selectAccount = document.createElement("button");
-      selectAccount.classList.add("select-account-btn");
-      selectAccount.innerText = "Select";
+      const balanceContainer = document.createElement("p");
+      balanceContainer.classList.add("account-balance");
+      balanceContainer.innerText = "Loading...";
+      getLocalBalance(account).then((balance) => {
+        console.log("Balance", balance);
+        balanceContainer.innerText = balance + " X̶";
+      });
 
-      selectAccount.addEventListener("click", () => {
-        // the account is selected and should be stored in a variable accessable across the whole application
-        localStorage.setItem("account", account);
-        console.log("Account:", account, "was selected.");
+      const copyAddress = document.createElement("button");
+      copyAddress.classList.add("select-account-btn");
+      copyAddress.innerText = "Copy Address";
 
-        const selectAccountButtons = document.querySelectorAll(
-          ".select-account-btn"
-        );
+      copyAddress.addEventListener("click", async () => {
+        await window.accounts.open();
+        const { extendedPublicKey } = await window.accounts.get(account);
+        console.log("Copying address", extendedPublicKey);
+        await window.accounts.close();
 
-        selectAccountButtons.forEach((button) => {
-          button.style.backgroundColor = "#14f195";
-        });
+        navigator.clipboard.writeText(extendedPublicKey);
 
-        selectAccount.style.backgroundColor = "#888888";
+        // change the button text to "copied"
+        copyAddress.innerHTML = "Copied!";
+        const bgColor = copyAddress.style.backgroundColor;
+        copyAddress.style.backgroundColor = "#ccc";
+
+        // change the button text back to "copy address" after 2 seconds
+        setTimeout(() => {
+          copyAddress.innerHTML = "Copy Address";
+          copyAddress.style.backgroundColor = bgColor;
+        }, 2000);
       });
 
       const deleteAccount = document.createElement("button");
@@ -236,7 +248,8 @@ function refreshAccountList() {
         refreshAccountList();
       });
 
-      buttonsContainer.appendChild(selectAccount);
+      buttonsContainer.appendChild(balanceContainer);
+      buttonsContainer.appendChild(copyAddress);
       buttonsContainer.appendChild(deleteAccount);
       accountButton.appendChild(buttonsContainer);
 
@@ -244,7 +257,27 @@ function refreshAccountList() {
     });
   } catch (err) {
     console.log("No accounts found.");
+    console.log(err);
     return;
+  }
+}
+
+async function getLocalBalance(accountName) {
+  await window.accounts.open();
+  const { extendedPublicKey } = await window.accounts.get(accountName);
+  await window.accounts.close();
+
+  await window.balances.open();
+  try {
+    const balance = await window.balances.get(extendedPublicKey);
+    console.log("Balance", balance);
+    await window.balances.close();
+    return balance;
+  } catch (err) {
+    console.log("No balance found.");
+    console.log(err);
+    await window.balances.close();
+    return 0;
   }
 }
 

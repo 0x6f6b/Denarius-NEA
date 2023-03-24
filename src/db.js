@@ -13,4 +13,8 @@ window.mempool = new Level(getAppdataPath() + "/mempool", {
   valueEncoding: "json",
 });
 
+window.balances = new Level(getAppdataPath() + "/balances", {
+  valueEncoding: "json",
+});
+
 console.log("Databases initialized");
