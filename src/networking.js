@@ -89,7 +89,7 @@ async function addBlock(receivedBlock) {
   // check that the hash is less than the target
   // hash the block
   const block = new Block();
-  Object.assign(tempBlock, receivedBlock);
+  Object.assign(block, receivedBlock);
 
   const hash = block.calculateHash();
   console.log("Hash:", hash);
