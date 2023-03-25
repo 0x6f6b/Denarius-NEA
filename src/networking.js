@@ -200,7 +200,8 @@ async function updateBalances(transactions) {
     const senderBalance = await window.balances
       .get(sender)
       .then((value) => {
-        return value;
+        // return balance as a float
+        return parseFloat(value);
       })
       .catch((err) => {
         return 0;
@@ -210,7 +211,8 @@ async function updateBalances(transactions) {
     const recipientBalance = await window.balances
       .get(recipient)
       .then((value) => {
-        return value;
+        // return balance as a float
+        return parseFloat(value);
       })
       .catch((err) => {
         return 0;
@@ -232,7 +234,8 @@ async function creditMiner(miner) {
   const minerBalance = await window.balances
     .get(miner)
     .then((value) => {
-      return value;
+      // return balance as a float
+      return parseFloat(value);
     })
     .catch((err) => {
       return 0;
