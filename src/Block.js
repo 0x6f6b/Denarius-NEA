@@ -1,6 +1,8 @@
 const TARGET = 0xa59cd2e4d5ae06dc823f9ef9d8adaa633a91a5935584e2135aff04d6a76n;
 const REWARD = 50;
 
+const { createHash } = require("crypto");
+
 class Block {
   constructor(transactions, previousHash) {
     this.transactions = transactions;
