@@ -125,14 +125,16 @@ async function addBlock(receivedBlock) {
   console.log("Previous hash:", prevBlockHash);
 
   await window.blockchain.open();
-  const lastHashInDatabase = await window.blockchain.get("lastHash").then(
-    (value) => {
+
+  const lastHashInDatabase = await window.blockchain
+    .get("lastHash")
+    .then((value) => {
       return value;
-    },
-    (err) => {
+    })
+    .catch((err) => {
       return "genesis";
-    }
-  );
+    });
+
   console.log("Last hash in database:", lastHashInDatabase);
 
   if (prevBlockHash !== lastHashInDatabase && prevBlockHash !== "genesis") {
@@ -156,14 +158,14 @@ async function addBlock(receivedBlock) {
   // remove the transactions from the mempool
   // treat two transactions as the same if they have the same signature
   await window.mempool.open();
-  const mempoolTransactions = await window.mempool.get("transactions").then(
-    (value) => {
+  const mempoolTransactions = await window.mempool
+    .get("transactions")
+    .then((value) => {
       return value;
-    },
-    (err) => {
+    })
+    .catch((err) => {
       return [];
-    }
-  );
+    });
 
   for (const transaction of transactions) {
     for (const mempoolTransaction of mempoolTransactions) {
