@@ -114,7 +114,7 @@ resetBlockchainButton.addEventListener("click", async () => {
   <p>Hostname: ${sysinfo.hostname}</p>
   <p>Platform: ${sysinfo.platform}</p>
   <p>CPU: ${sysinfo.cpu}</p>
-  <p>CPU Cores: ${sysinfo.cpuCores}</p>
+  <p>CPU Threads: ${sysinfo.cpuCores}</p>
   <p>Total Memory: ${sysinfo.memory}</p>
   <p>External IP: ${sysinfo.publicIP}</p>
 `;
