@@ -54,6 +54,22 @@ transactionMetadata.addEventListener("submit", async (e) => {
   // sign the transaction
   transaction.sign(extendedPrivateKey);
 
+  // add it to the local mempool
+  await window.mempool.open();
+  const transactions = await window.mempool
+    .get("transactions")
+    .then((value) => {
+      return value;
+    })
+    .catch((err) => {
+      return [];
+    });
+
+  transactions.push(transaction);
+
+  await window.mempool.put("transactions", transactions);
+  await window.mempool.close();
+
   broadcastTransaction(transaction);
 });
 
