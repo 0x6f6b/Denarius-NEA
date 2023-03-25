@@ -193,7 +193,7 @@ async function updateBalances(transactions) {
     console.log("Sender:", sender);
     const recipient = transaction.recipient;
     console.log("Recipient:", recipient);
-    const amount = transaction.amount;
+    const amount = parseFloat(transaction.amount);
     console.log("Amount:", amount);
 
     // get the sender's balance
