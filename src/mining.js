@@ -39,6 +39,9 @@ async function genesisBlock() {
 
   console.log("Genesis block created");
   mineButton.innerText = "Mine";
+
+  // broadcast the genesis block to the network
+  broadcastBlock(genesis);
 }
 
 async function checkForExistingBlockchain() {
