@@ -4,7 +4,7 @@ const { Transaction } = require("../src/Transaction.js");
 const { Block, TARGET, REWARD } = require("../src/Block.js");
 
 var peer = new Peer(uuid.v4(), {
-  host: "13.50.246.63",
+  host: "16.170.108.172",
   port: 9000,
   path: "/denarius",
 });
@@ -143,6 +143,23 @@ async function addBlock(block) {
   if (block.miner !== "genesis") {
     await creditMiner(block.miner);
   }
+
+  // remove the transactions from the mempool
+  // treat two transactions as the same if they have the same signature
+  await window.mempool.open();
+  const mempoolTransactions = await window.mempool.get("transactions");
+
+  for (const transaction of transactions) {
+    for (const mempoolTransaction of mempoolTransactions) {
+      if (transaction.signature === mempoolTransaction.signature) {
+        const index = mempoolTransactions.indexOf(mempoolTransaction);
+        mempoolTransactions.splice(index, 1);
+      }
+    }
+  }
+
+  await window.mempool.put("transactions", mempoolTransactions);
+  await window.mempool.close();
 }
 
 async function updateBalances(transactions) {
