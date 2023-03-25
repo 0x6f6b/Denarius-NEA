@@ -16,6 +16,7 @@ class Block {
     target = TARGET;
 
     this.nonce = 0;
+    this.timestamp = Date.now();
 
     let hash = this.calculateHash();
     let hashValue = BigInt("0x" + hash);
@@ -23,6 +24,7 @@ class Block {
     const startTime = Date.now();
     let hashed = 0;
     while (hashValue > target) {
+      this.timestamp = Date.now();
       this.nonce = Math.random().toString();
       hash = this.calculateHash();
 
@@ -41,7 +43,6 @@ class Block {
 
     console.log("Found proof of work: " + hash);
     this.hash = hash;
-    this.timestamp = Date.now();
   }
 
   // Convert entire block to a string by overriding the toString() method
@@ -50,7 +51,17 @@ class Block {
   }
 
   calculateHash() {
-    const hash = createHash("sha256").update(this.toString()).digest("hex");
+    // hash the block using SHA-256
+    // hash specific properties of the block
+    const hash = createHash("sha256")
+      .update(
+        this.previousHash +
+          this.timestamp +
+          this.nonce +
+          this.transactions +
+          this.miner
+      )
+      .digest("hex");
 
     return hash;
   }

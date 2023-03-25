@@ -205,8 +205,12 @@
   width: 80%;
   margin: 5px;
 }
-
+@font-face {
+    font-family: "Symbola";
+    src: url("../util/Symbola.ttf") format("truetype");
+  }
 .account-balance {
+  font-family: "Symbola";
   font-size: 20px;
   font-weight: bold;
   color: black;

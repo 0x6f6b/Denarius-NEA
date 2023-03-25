@@ -189,7 +189,7 @@ function refreshAccountList() {
       balanceContainer.innerText = "Loading...";
       getLocalBalance(account).then((balance) => {
         console.log("Balance", balance);
-        balanceContainer.innerText = balance + " X̶";
+        balanceContainer.innerText = balance + " 𐆖";
       });
 
       const copyAddress = document.createElement("button");

@@ -85,14 +85,11 @@ async function addBlock(block) {
 
   // check if the block is valid
   console.log("Verifying block authenticity");
-  console.log(JSON.stringify(block));
 
   // check that the hash is less than the target
   // hash the block
-  const blockReceived = new Block();
-  Object.assign(blockReceived, block);
 
-  const hash = blockReceived.calculateHash();
+  const hash = block.calculateHash();
   console.log("Hash:", hash);
 
   // check that the hash is less than the target
@@ -100,6 +97,9 @@ async function addBlock(block) {
 
   if (hashInt < TARGET) {
     console.log("Block hash is valid");
+  } else {
+    console.log("Block hash is invalid");
+    return;
   }
 
   // check that the transactions within the block are valid
@@ -120,16 +120,17 @@ async function addBlock(block) {
 
   // add the block to the local blockchain
   const prevBlockHash = block.previousHash;
+  console.log("Previous hash:", prevBlockHash);
 
   await window.blockchain.open();
   const lastHashInDatabase = await window.blockchain.get("lastHash");
+  console.log("Last hash in database:", lastHashInDatabase);
 
   if (prevBlockHash !== lastHashInDatabase) {
     console.log("Block is not the next block in the local chain");
     return;
   }
 
-  // add the block to the local blockchain
   await window.blockchain.put("lastHash", block.hash);
   await window.blockchain.put(block.hash, block);
 
@@ -151,8 +152,11 @@ async function updateBalances(transactions) {
 
   for (const transaction of transactions) {
     const sender = transaction.sender;
-    const receiver = transaction.receiver;
+    console.log("Sender:", sender);
+    const recipient = transaction.recipient;
+    console.log("Recipient:", recipient);
     const amount = transaction.amount;
+    console.log("Amount:", amount);
 
     // get the sender's balance
     const senderBalance = await window.balances
@@ -165,8 +169,8 @@ async function updateBalances(transactions) {
       });
 
     // get the receiver's balance
-    const receiverBalance = await window.balances
-      .get(receiver)
+    const recipientBalance = await window.balances
+      .get(recipient)
       .then((value) => {
         return value;
       })
@@ -176,7 +180,7 @@ async function updateBalances(transactions) {
 
     // update the balances
     await window.balances.put(sender, senderBalance - amount);
-    await window.balances.put(receiver, receiverBalance + amount);
+    await window.balances.put(recipient, recipientBalance + amount);
   }
 
   await window.balances.close();
@@ -200,4 +204,5 @@ async function creditMiner(miner) {
   await window.balances.put(miner, minerBalance + REWARD);
 
   await window.balances.close();
+  console.log("Miner credited");
 }

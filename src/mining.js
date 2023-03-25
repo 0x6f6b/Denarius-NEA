@@ -63,6 +63,15 @@ async function deleteExistingBlockchain() {
   await window.blockchain.open();
   await window.blockchain.clear();
   await window.blockchain.close();
+
+  await window.balances.open();
+  await window.balances.clear();
+  await window.balances.close();
+
+  await window.mempool.open();
+  await window.mempool.clear();
+  await window.mempool.close();
+
   console.log("Blockchain data deleted");
 }
 
@@ -148,22 +157,6 @@ async function mine() {
 
   await block.proofOfWork(TARGET, publicKey);
 
-  // add the block to the local blockchain
-  await window.blockchain.put(block.hash, block.toString());
-  await window.blockchain.put("lastHash", block.hash);
-
-  // remove the transactions that were included in the block from the mempool
-  const mempoolTxs = await window.mempool.get("transactions");
-  const newMempoolTxs = mempoolTxs.filter((tx) => {
-    return !block.transactions.includes(tx);
-  });
-
-  console.log("New mempool transactions: " + newMempoolTxs.length);
-
-  await window.mempool.put("transactions", newMempoolTxs);
-
-  await window.blockchain.close();
-
   console.log("Block mined");
   mineButton.innerText = "Broadcasting";
 
@@ -178,6 +171,9 @@ async function mine() {
 
   // distribute the block to other nodes
   broadcastBlock(block);
+
+  // add the block to the miner's local blockchain
+  await addBlock(block);
 }
 
 updatePendingTransactions();
