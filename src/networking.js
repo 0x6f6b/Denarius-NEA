@@ -137,7 +137,10 @@ async function addBlock(receivedBlock) {
 
   console.log("Last hash in database:", lastHashInDatabase);
 
-  if (prevBlockHash !== lastHashInDatabase && prevBlockHash !== "genesis") {
+  if (
+    prevBlockHash !== lastHashInDatabase &&
+    lastHashInDatabase !== "genesis"
+  ) {
     console.log("Block is not the next block in the local chain");
     return;
   }
