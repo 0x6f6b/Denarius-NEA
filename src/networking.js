@@ -80,7 +80,7 @@ async function sendMempool(conn) {
   conn.send({ type: "mempool", transactions: transactions });
 }
 
-async function addBlock(block) {
+async function addBlock(receivedBlock) {
   // add the block to the blockchain
 
   // check if the block is valid
@@ -88,6 +88,8 @@ async function addBlock(block) {
 
   // check that the hash is less than the target
   // hash the block
+  const block = new Block();
+  Object.assign(tempBlock, receivedBlock);
 
   const hash = block.calculateHash();
   console.log("Hash:", hash);
