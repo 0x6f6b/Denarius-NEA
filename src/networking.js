@@ -4,7 +4,7 @@ const { Transaction } = require("../src/Transaction.js");
 const { Block, TARGET, REWARD } = require("../src/Block.js");
 
 var peer = new Peer(uuid.v4(), {
-  host: "16.170.108.172",
+  host: "13.50.246.130",
   port: 9000,
   path: "/denarius",
 });
