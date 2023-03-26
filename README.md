@@ -9,6 +9,7 @@ Please note that this is not a production-ready project, and it is not intended 
 - JavaScript/NodeJS
 - ElectronJS
 - WebRTC via PeerJS
+- LevelDB
 
 ## How to Use
 
