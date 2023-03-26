@@ -32,6 +32,8 @@ In the future, I plan to include installers for this project in the Releases sec
 
 This project is not intended for real-world use and is solely created for educational purposes. The code may contain vulnerabilities, and I take no responsibility for any issues that may arise from its usage. Please use at your own risk.
 
+The current name of the project is Denarius, but this is just a placeholder name and is subject to change. In the case of this project, the name Denarius was chosen as a reference to a Roman coin that was widely used during the ancient times. While the name may have some historical significance, it does not reflect the purpose or functionality of the program.
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
