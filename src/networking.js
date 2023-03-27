@@ -2,10 +2,21 @@ const uuid = require("uuid");
 const Peer = require("peerjs").Peer;
 const { Transaction } = require("../src/Transaction.js");
 const { Block, TARGET, REWARD } = require("../src/Block.js");
+const { readFileSync } = require("fs");
+
+let serverData = {
+  serverIP: "localhost",
+  serverPort: 9000,
+};
+try {
+  serverData = JSON.parse(readFileSync(getAppdataPath() + "/config.json"));
+} catch (_err) {
+  console.log("No config file found");
+}
 
 var peer = new Peer(uuid.v4(), {
-  host: "13.50.246.130",
-  port: 9000,
+  host: serverData.serverIP,
+  port: serverData.serverPort,
   path: "/denarius",
 });
 

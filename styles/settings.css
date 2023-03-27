@@ -1,0 +1,64 @@
+#settings-btn {
+  background-color: #14f195;
+}
+
+#settings {
+  display: flex;
+  height: calc(100vh - 143px);
+  border: #14f195 1px solid;
+  margin-top: 20px;
+  border-radius: 20px;
+  align-items: center;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 600;
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+#server-settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
+}
+
+#server-settings label {
+  font-size: 20px;
+  font-weight: 600;
+  color: #14f195;
+}
+
+#server-settings input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 40%;
+  height: 30px;
+  border: #14f195 1px solid;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 20px;
+  color: white;
+  background-color: #1a1a1a;
+}
+
+#server-settings input:focus {
+  outline: none;
+}
+
+#server-settings button {
+  margin-top: 20px;
+  width: 30%;
+  border: #14f195 1px solid;
+  border-radius: 10px;
+  font-size: 20px;
+  color: #14f195;
+  background-color: #1a1a1a;
+  padding: 10px;
+}

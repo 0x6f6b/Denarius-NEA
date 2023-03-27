@@ -17,3 +17,9 @@ transactionsButton.addEventListener("click", () => {
   // send the user to the transactions page
   window.location.href = "./pages/transactions.html";
 });
+
+const settingsButton = document.getElementById("settings");
+settingsButton.addEventListener("click", () => {
+  // send the user to the settings page
+  window.location.href = "./pages/settings.html";
+});
