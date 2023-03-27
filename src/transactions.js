@@ -39,7 +39,24 @@ transactionMetadata.addEventListener("submit", async (e) => {
     sender
   );
 
-  console.log(extendedPrivateKey, extendedPublicKey);
+  // check that the selected account has sufficient funds
+  await window.balances.open();
+  const balance = await window.balances
+    .get(sender)
+    .then((value) => {
+      return parseFloat(value);
+    })
+    .catch((err) => {
+      return 0;
+    });
+
+  if (balance < amount) {
+    alert("The selected account does not have sufficient funds");
+    await window.balances.close();
+    return;
+  }
+
+  await window.balances.close();
 
   // create a new transaction
   const { Transaction } = require("../src/Transaction.js");
@@ -69,6 +86,11 @@ transactionMetadata.addEventListener("submit", async (e) => {
 
   await window.mempool.put("transactions", transactions);
   await window.mempool.close();
+
+  // clear the form
+  document.getElementById("recipient").value = "";
+  document.getElementById("amount").value = "";
+  document.getElementById("reference").value = "";
 
   broadcastTransaction(transaction);
 });

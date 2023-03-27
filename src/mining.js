@@ -133,7 +133,7 @@ async function mine() {
   await window.mempool.open();
 
   // get the local mempool
-  const transactions = await window.mempool
+  let transactions = await window.mempool
     .get("transactions")
     .then((value) => {
       return value;
@@ -143,6 +143,9 @@ async function mine() {
     });
 
   console.log("Transactions in mempool: " + transactions.length);
+
+  // check that all accounts have anough funds to cover their transactions
+  transactions = await checkSufficientFunds(transactions);
 
   // get the last block in the blockchain
   await window.blockchain.open();
@@ -177,6 +180,50 @@ async function mine() {
 
   // add the block to the miner's local blockchain
   await addBlock(block);
+}
+
+async function checkSufficientFunds(transactions) {
+  // filter transactions into chronological order
+  transactions.sort((a, b) => {
+    return a.timestamp - b.timestamp;
+  });
+
+  // check that all accounts have anough funds to cover their transactions
+  // remove all those that break the rule
+  const balances = {};
+  const valid = [];
+
+  // we can check the balances of each account at each transaction
+  // this means if there are multiple transactions for the same account
+  // we only need to check the balance once and update it for each transaction
+
+  for (const transaction of transactions) {
+    // check if the account has been checked already
+    if (balances[transaction.sender] === undefined) {
+      // get the account balance
+      const balance = await window.balances.get(transaction.sender);
+
+      // check if the account has enough funds
+      if (balance >= transaction.amount) {
+        // add the transaction to the valid transactions
+        valid.push(transaction);
+
+        // update the balance
+        balances[transaction.sender] = balance - transaction.amount;
+      }
+    } else {
+      // check if the account has enough funds
+      if (balances[transaction.sender] >= transaction.amount) {
+        // add the transaction to the valid transactions
+        valid.push(transaction);
+
+        // update the balance
+        balances[transaction.sender] -= transaction.amount;
+      }
+    }
+  }
+
+  return valid;
 }
 
 updatePendingTransactions();
