@@ -1,10 +1,12 @@
 # Denarius NEA
+
 Distributed Ledger using WebRTC and ElectronJS
 
 [![CodeQL](https://github.com/0x6f6b/Denarius-NEA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/0x6f6b/Denarius-NEA/actions/workflows/github-code-scanning/codeql)
 
 ## Description
-This is a project for my A-Level Computer Science course where I implemented a distributed ledger using JavaScript and ElectronJS. The ledger uses Proof-of-Work and the account model to a degree. 
+
+This is a project for my A-Level Computer Science course where I implemented a distributed ledger using JavaScript and ElectronJS. The ledger uses Proof-of-Work and the account model to a degree.
 
 Please note that this is not a production-ready project, and it is not intended for real-world use. As an A-Level student, I have limited knowledge and skills, and there may be many issues that I am not equipped to deal with.
 
@@ -18,10 +20,12 @@ Please note that this is not a production-ready project, and it is not intended 
 ## How to Use
 
 To use this project, you can download or clone the repository and run it using the following commands:
-```
+
+```javascript
 npm install
 npm start
 ```
+
 Please note that a PeerJS signaling server may be required for certain networking features. You can find more information about PeerJS and how to set up a signaling server on their website.
 
 ## Releases
@@ -37,4 +41,3 @@ The current name of the project is Denarius, but this is just a placeholder name
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
