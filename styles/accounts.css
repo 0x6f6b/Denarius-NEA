@@ -7,7 +7,7 @@
   height: calc(100vh - 143px);
   display: flex;
   flex-direction: column;
-  border: 1px solid white;
+  border: #14f195 1px solid;
   margin-top: 20px;
   border-radius: 20px;
 }
@@ -206,9 +206,9 @@
   margin: 5px;
 }
 @font-face {
-    font-family: "Symbola";
-    src: url("../util/Symbola.ttf") format("truetype");
-  }
+  font-family: "Symbola";
+  src: url("../util/Symbola.ttf") format("truetype");
+}
 .account-balance {
   font-family: "Symbola";
   font-size: 20px;

@@ -1,5 +1,4 @@
 const { createHash } = require("crypto");
-const { readFileSync } = require("fs");
 const { getSystemInformation } = require("../src/platform.js");
 
 // open the "accounts.txt file" and read each line

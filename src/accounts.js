@@ -1,5 +1,5 @@
 const { randomBytes, createHash } = require("crypto");
-const { readFileSync, writeFileSync } = require("fs");
+const { writeFileSync } = require("fs");
 const { generatePrivateKey, storeAccount } = require("../src/cryptography.js");
 
 window.onload = () => {

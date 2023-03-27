@@ -1,4 +1,3 @@
-const { readFileSync } = require("fs");
 const { getAccountData } = require("../src/cryptography.js");
 
 const transactionMetadata = document.getElementById("transaction-metadata");

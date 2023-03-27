@@ -25,4 +25,9 @@ if (!window.location.href.includes("index.html")) {
   goToAccountsPage.addEventListener("click", () => {
     window.location.href = "./accounts.html";
   });
+
+  const goToSettingsPage = document.getElementById("settings-btn");
+  goToSettingsPage.addEventListener("click", () => {
+    window.location.href = "./settings.html";
+  });
 }
