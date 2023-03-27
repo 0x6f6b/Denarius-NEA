@@ -1,6 +1,6 @@
 # Denarius NEA
 
-Distributed Ledger using WebRTC and ElectronJS
+Distributed Ledger and Digital Currency using WebRTC and ElectronJS
 
 [![CodeQL](https://github.com/0x6f6b/Denarius-NEA/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/0x6f6b/Denarius-NEA/actions/workflows/github-code-scanning/codeql)
 
