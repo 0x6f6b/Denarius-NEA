@@ -1,4 +1,3 @@
-const { createHash } = require("crypto");
 const { getSystemInformation } = require("../src/platform.js");
 
 // open the "accounts.txt file" and read each line
