@@ -6,6 +6,7 @@
   "author": "Jack Mertens",
   "license": "MIT",
   "scripts": {
+    "run": "electron .",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"

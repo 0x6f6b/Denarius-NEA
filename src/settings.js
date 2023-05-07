@@ -1,5 +1,4 @@
 const { writeFileSync } = require("fs");
-const { getAppdataPath } = require("../src/platform.js");
 
 const settingsForm = document.getElementById("server-settings");
 
@@ -14,6 +13,9 @@ try {
 
 settingsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  console.log("Saving settings");
+
   const formData = new FormData(settingsForm);
 
   const serverIP = formData.get("server-ip");
@@ -24,6 +26,13 @@ settingsForm.addEventListener("submit", async (e) => {
     serverIP,
     serverPort,
   };
+  try {
+    writeFileSync(getAppdataPath() + "/config.json", JSON.stringify(config));
+    console.log("Settings saved");
 
-  writeFileSync(getAppdataPath() + "/config.json", JSON.stringify(config));
+    // reload the page to apply the new settings
+    window.location.reload();
+  } catch (err) {
+    console.log(err);
+  }
 });

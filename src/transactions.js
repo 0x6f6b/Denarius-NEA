@@ -41,11 +41,12 @@ transactionMetadata.addEventListener("submit", async (e) => {
   // check that the selected account has sufficient funds
   await window.balances.open();
   const balance = await window.balances
-    .get(sender)
+    .get(extendedPublicKey)
     .then((value) => {
       return parseFloat(value);
     })
     .catch((err) => {
+      console.log(err);
       return 0;
     });
 

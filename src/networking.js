@@ -10,7 +10,8 @@ let serverData = {
 };
 try {
   serverData = JSON.parse(readFileSync(getAppdataPath() + "/config.json"));
-} catch (_err) {
+} catch (err) {
+  console.log(err);
   console.log("No config file found");
 }
 
