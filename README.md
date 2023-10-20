@@ -6,7 +6,7 @@ Distributed Ledger and Digital Currency using WebRTC and ElectronJS
 
 ## Description
 
-This is a project for my A-Level Computer Science course where I implemented a distributed ledger using JavaScript and ElectronJS. The ledger uses Proof-of-Work and the account model to a degree.
+This is a project where I implemented a distributed ledger using JavaScript and ElectronJS. The ledger uses Proof-of-Work and the account model to a degree.
 
 Please note that this is not a production-ready project, and it is not intended for real-world use. As an A-Level student, I have limited knowledge and skills, and there may be many issues that I am not equipped to deal with.
 
